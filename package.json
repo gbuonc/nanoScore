@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "@reach/router": "^1.0.5",
+    "abcjs": "^5.1.2",
     "react-loadable": "^5.4.0",
     "react-scripts": "1.1.4",
     "semantic-ui-react": "^0.81.1",

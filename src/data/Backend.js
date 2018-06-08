@@ -15,12 +15,11 @@ import {navigate} from "@reach/router";
 //          instrument:'piano',
 //          transpose:0,
 //       },
-//       scoreMeta:'',
-//       scoreStaff:'abcdfgABC'
 //    }
 // }
 
 export const data ={
+   // -----------------------------
    getScores: ()=>{
       // get scores from localstorage and pass to app store on app mount
       const localScores = localStorage.getItem('nanoScore');
@@ -29,26 +28,35 @@ export const data ={
          store.setState({scores})
       }
    },
+   // -----------------------------
    editScoreSettings: (scoreId, scoreSettings) => {
+      // set default title
+      scoreSettings.title = (scoreSettings.title === '') ? 'Brano senza Titolo' : scoreSettings.title;
+      data.generateScore(scoreId, scoreSettings, null, true)
+   },
+   // -----------------------------
+   editScoreMelody:(scoreId, scoreMelody) => {
+      // generate score
+      data.generateScore(scoreId, null, scoreMelody, false)
+   },
+   // -----------------------------
+   generateScore:(scoreId, scoreSettings, scoreMelody, reload)=>{
       // get current collection and check if scoreId is already present in collection
       const scores = store.getState().scores;
       const scoresArray = Object.keys(scores);
-      const newScore = scoresArray.indexOf(scoreId) >=0 ? false : true;
-      // set default title
-      scoreSettings.title = (scoreSettings.title === '') ? 'Brano senza Titolo' : scoreSettings.title;
-      // TO DO: convert score settings to ABC NOTATION ...
+      const newScore = scoresArray.indexOf(scoreId+'') >= 0 ? false : true;
       const score = newScore ? {} : {...scores[scoreId]};
-      score.settings = scoreSettings;
-      if(newScore){
-         // add ABC Notation fields
-         score.scoreMeta = '';
-         score.scoreStaff = '';
-      }
-      // 4 - save changes to store and localStorage then redirect to score page
+      // init settings + melody
+      score.settings = score.settings || {};
+      score.melody = score.melody || '';
+      // change if present, or leave as is
+      score.settings = scoreSettings ? scoreSettings : score.settings;
+      score.melody = scoreMelody ? scoreMelody : score.melody;
+      // save
       scores[scoreId] = score;
       store.setState({scores});
       localStorage.setItem('nanoScore', JSON.stringify(scores));
-      navigate(`/save/${scoreId}`);
+      if(reload) navigate(`/save/${scoreId}`);
    },
    deleteScore:(scoreId)=>{
       const scores = store.getState().scores;

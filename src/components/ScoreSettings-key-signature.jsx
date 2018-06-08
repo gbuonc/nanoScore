@@ -10,24 +10,24 @@ class ScoreSettingsKeySignature extends Component {
       }
       this.keySignature={
          'sharp':{
-            0: { label:'Do magg./la min'},
-            1: { label: 'Sol magg./mi min.' },
-            2: { label: 'Re magg./si min.' },
-            3: { label: 'La magg./fa♯ min.' },
-            4: { label: 'Mi magg./do♯ min.' },
-            5: { label: 'Si magg./sol♯ min.' },
-            6: { label: 'Fa♯ magg./re♯ min.' },
-            7: { label: 'Do♯ magg./la♯ min.' }
+            0: { label:'Do magg./la min', abc:'C'},
+            1: { label: 'Sol magg./mi min.', abc: 'G' },
+            2: { label: 'Re magg./si min.', abc: 'D' },
+            3: { label: 'La magg./fa♯ min.', abc: 'A' },
+            4: { label: 'Mi magg./do♯ min.', abc: 'E' },
+            5: { label: 'Si magg./sol♯ min.', abc: 'B' },
+            6: { label: 'Fa♯ magg./re♯ min.', abc: 'F#' },
+            7: { label: 'Do♯ magg./la♯ min.', abc: 'C#' }
          },
          'flat': {
-            0: { label: 'Do magg./la min' },
-            7: { label: 'Do♭ magg./la♭ min.' },
-            6: { label: 'Sol♭ magg./mi♭ min.' },
-            5: { label: 'Re♭ magg./si♭ min.' },
-            4: { label: 'La♭ magg./fa min.' },
-            3: { label: 'Mi♭ magg./do min.' },
-            2: { label: 'Si♭ magg./sol min.' },
-            1: { label: 'Fa magg./re min.' }
+            0: { label: 'Do magg./la min', abc: 'C' },
+            7: { label: 'Do♭ magg./la♭ min.', abc: 'Cb' },
+            6: { label: 'Sol♭ magg./mi♭ min.', abc: 'Gb' },
+            5: { label: 'Re♭ magg./si♭ min.', abc: 'Db' },
+            4: { label: 'La♭ magg./fa min.', abc: 'Ab' },
+            3: { label: 'Mi♭ magg./do min.', abc: 'Eb' },
+            2: { label: 'Si♭ magg./sol min.', abc: 'Bb' },
+            1: { label: 'Fa magg./re min.', abc: 'F' }
          }
       }
       this.setSignature = this.setSignature.bind(this);
@@ -35,12 +35,14 @@ class ScoreSettingsKeySignature extends Component {
    }
    setSignature(e, comp){
       this.setState({ keySig: comp.value }, ()=>{
-         this.props.handleKeySignature([this.state.keySig, this.state.keyNumber]);
+         const abcKey = this.keySignature[this.state.keySig][this.state.keyNumber].abc;
+         this.props.handleKeySignature([this.state.keySig, this.state.keyNumber, abcKey]);
       })
    }
    setNumber(e, comp){
       this.setState({ keyNumber: parseInt(comp.value, 10) }, () => {
-         this.props.handleKeySignature([this.state.keySig, this.state.keyNumber]);
+         const abcKey = this.keySignature[this.state.keySig][this.state.keyNumber].abc;
+         this.props.handleKeySignature([this.state.keySig, this.state.keyNumber, abcKey]);
       })
    }
    render() {

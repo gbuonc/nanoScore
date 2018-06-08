@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Segment, Header, Icon, Grid, Modal} from 'semantic-ui-react';
 import ScoreSettings from '../components/ScoreSettings';
+import StaveViewer from '../components/StaveViewer';
 import { connect } from 'unistore/react';
 import { navigate } from "@reach/router";
 
@@ -49,7 +50,7 @@ const ScoreWithStore = connect(['scores'])(
                </Grid.Row>
             </Grid>
             </Segment>
-            {scoreId}
+            <StaveViewer score={score} />
             <Segment className="score-view-bottom">Bottom</Segment>
          </React.Fragment>
       )

@@ -38,7 +38,7 @@ class ScoreSettings extends Component {
          clef: 'G',
          metronome: 120,
          time: '4/4',
-         keySignature: ['sharp', 0],
+         keySignature: ['sharp', 0, 'C'],
          instrument: instruments[0].value,
          transposing: false,
          transpose: false
