@@ -13,8 +13,9 @@ html, body{
    justify-content: center;
    align-items: center;
    text-align: center;
+   position: relative;
 }
-
+.score-view-middle{width: 100%;}
 .score-view-top.score-view-top,
 .score-view-bottom.score-view-bottom {width: 100%; position: fixed; left:0; border-radius:0;}
 .score-view-top.score-view-top{top: 0;}
@@ -24,3 +25,4 @@ html, body{
    box-shadow: none !important;
    border-color:transparent;
 }
+#stave{background: #efefef; margin: 10px;}

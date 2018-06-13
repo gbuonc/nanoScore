@@ -49,12 +49,14 @@ class ScoreSettingsKeySignature extends Component {
       const { keySig, keyNumber} = this.state;
       const keySigLabel = this.keySignature[keySig][keyNumber].label;
       return (
-         <Form.Group inline>
+         <Form.Group grouped>
             <label>Armatura di Chiave</label>
-            <Form.Radio name="keySig" label='Diesis' value="sharp" checked={this.state.keySig === 'sharp'} onChange={this.setSignature} />
-            <Form.Radio name="keySig" label='Bemolle' value="flat" checked={this.state.keySig === 'flat'} onChange={this.setSignature} />
-            <Form.Input name="keyNumber" defaultValue={this.state.keyNumber} min="0" max="7" type="number" onChange={this.setNumber} />
-            <label>{keySigLabel}</label>
+               <Form.Group inline>
+                  <Form.Radio name="keySig" label='Diesis' value="sharp" checked={this.state.keySig === 'sharp'} onChange={this.setSignature} />
+                  <Form.Radio name="keySig" label='Bemolle' value="flat" checked={this.state.keySig === 'flat'} onChange={this.setSignature} />
+                  <Form.Input name="keyNumber" defaultValue={this.state.keyNumber} min="0" max="7" type="number" onChange={this.setNumber} />
+                  <label>{keySigLabel}</label>
+               </Form.Group>
          </Form.Group>
       );
    }

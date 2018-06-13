@@ -1,47 +1,61 @@
 import React, { Component } from 'react';
-import ABCJS from 'abcjs';
-import { data } from '../data/Backend';
+import abcjs from 'abcjs/midi';
+import 'abcjs/abcjs-midi.css';
 
 class StaveViewer extends Component {
-   constructor(props) {
-      super(props);
-      this.scoreId = props.score.settings.scoreId;
-      this.state={
-         settings: props.score.settings,
-         melody: props.score.melody ||''
-      }
-   }
    componentDidMount() {
-      const abcNotation = this.setAbcNotation();
-      ABCJS.renderAbc("paper1", abcNotation,{});
+      this.renderStave();
    }
-   changeMelody(e){
-      const melody = e.target.value;
-      this.setState({melody}, ()=>{
-         const abcNotation = this.setAbcNotation();
-         ABCJS.renderAbc("paper1", abcNotation, {});
-         data.editScoreMelody(this.scoreId, this.state.melody); // save changes
-      })
+   componentDidUpdate() {
+      this.renderStave();
    }
-   setAbcNotation(){
-      // set ABC NOTATION
-      const AbcNotation = `X:${this.scoreId}
-%T:${this.state.settings.title}
-%C:${this.state.settings.author}
-M:${this.state.settings.time}
-Q:1/4=${this.state.settings.metronome}
-L: 1/4
-K:${this.state.settings.keySignature[2]}
-${this.state.melody || 'x'}`;
-      return AbcNotation;
+   renderStave(){
+      new abcjs.Editor(
+         "test",
+         {
+            paper_id: 'stave',
+            generate_midi: true,
+            midi_id: "midi-inline",
+            abcjsParams: {
+               paddingright: 20,
+               paddingleft: 20,
+               staffwidth: document.body.getBoundingClientRect().width,
+               add_classes: true,
+               clickListener: function (abcElem, tuneNumber, classes) { 
+                  console.log(abcElem, tuneNumber, classes); 
+               },
+               // midi
+               inlineControls: {
+                  hide: true,
+               },
+               program: 56,
+               //midiTranspose: -2,
+               animate: {
+                  listener: function (lastRange, currentRange, context) {
+                     function colorRange(range, color, checkPos) {
+                        if (range && range.elements) {
+                           range.elements.forEach(function (set) {
+                              set.forEach(function (item) {
+                                 item.setAttribute('fill', color);
+                                 item.classList.remove('currentNote');
+                              });
+                           });
+                        }
+                     }
+                     colorRange(lastRange, '#999', false);
+                     colorRange(currentRange, '#1989f0', true);
+                  }},
+            }
+         });
    }
    render() {
       return (
-         <div>
-            <textarea style={{'position':'fixed', 'bottom':'0', 'zIndex':'10'}}defaultValue={this.state.melody} onChange={(e)=>this.changeMelody(e)}></textarea>
-            <div id="paper1"></div>
-         </div>
-      );
+         <React.Fragment>
+            <textarea id="test" value={this.props.abc} readOnly style={{'display':'none'}}></textarea>
+            <div id="midi-inline"></div>
+            <div id="stave"></div>
+         </React.Fragment>
+      )
    }
 }
 export default StaveViewer;

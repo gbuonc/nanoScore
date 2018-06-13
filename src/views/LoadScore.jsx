@@ -4,7 +4,7 @@ import { Table, Button, Icon, Container, Header, Segment } from 'semantic-ui-rea
 import distanceInWords from 'date-fns/distance_in_words';
 import it from 'date-fns/locale/it';
 import { Link, Redirect, navigate } from '@reach/router';
-import { data } from '../data/Backend';
+import { data } from '../data/Store';
 
 const LoadScoreWithStore = connect(['scores'])(
 ({ scores }) => {
@@ -21,15 +21,15 @@ const LoadScoreWithStore = connect(['scores'])(
    return(
       <Container>
          <Header as="h3">Apri Brano</Header>
-         <Table basic='very' striped>
+         <Table basic='very' striped unstackable singleLine compact="very">
             <Table.Body>
                {scoreArray.length > 0 && scoreArray.map((score) =>{
                   return(
                      <Table.Row key={score.scoreId}>
                         <Table.Cell><Link to={`/score/${score.scoreId}`}><strong>{score.title}</strong></Link></Table.Cell>
                         <Table.Cell>{distanceInWords(Date.now(), score.scoreId, { addSuffix: true, locale:it })}</Table.Cell>
-                        <Table.Cell>{score.metronome} BPM</Table.Cell>
-                        <Table.Cell>{score.instrument}</Table.Cell>
+                        {/* <Table.Cell>{score.metronome} BPM</Table.Cell>
+                        <Table.Cell>{score.instrument}</Table.Cell> */}
                         <Table.Cell textAlign="right">
                            <Button icon basic size="tiny" color="red" className="unbordered" onClick={()=>{handleDelete(score.scoreId)}}><Icon name='cancel' /></Button>
                         </Table.Cell>

@@ -11,7 +11,7 @@ const HomeWithStore = connect(['scores'])(
       <Header as='h1' icon>
          <Icon name='music' circular />
          NanoScore
-      <Header.Subheader>
+         <Header.Subheader>
             <Link to="/new">Nuovo</Link> {hasScores && (
                <React.Fragment>
                | <Link to="/load">Apri</Link>

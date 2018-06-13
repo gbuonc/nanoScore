@@ -4,8 +4,7 @@ import { Container } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 import './App.css';
 // store
-import { data } from './data/Backend';
-import { store } from './data/Store';
+import { store, data } from './data/Store';
 import { Provider } from 'unistore/react'
 // routing
 import { Router, Redirect } from "@reach/router";
@@ -17,7 +16,6 @@ import Score from './views/Score.jsx';
 
 class App extends Component {
    componentDidMount(){
-      // get scores from localstorage and pass to app store
       data.getScores();
    }
    render() {
@@ -33,7 +31,7 @@ class App extends Component {
                   <Redirect from="/delete/" to="/load" noThrow />
                </Router>
             </Container>
-         </Provider> 
+         </Provider>
       )
    }
 }
